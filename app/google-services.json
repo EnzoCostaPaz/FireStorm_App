@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "184669623086",
+    "project_id": "projetoaula-8d042",
+    "storage_bucket": "projetoaula-8d042.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184669623086:android:7e5c2109b3db1dbb72a0bf",
+        "android_client_info": {
+          "package_name": "com.company.FireBaseApp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkgqA6AgXdzWoZYq51acbhxDNB_uMhGlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184669623086:android:fb536767a1353f8172a0bf",
+        "android_client_info": {
+          "package_name": "com.example.appfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkgqA6AgXdzWoZYq51acbhxDNB_uMhGlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184669623086:android:adcf47291b35a52772a0bf",
+        "android_client_info": {
+          "package_name": "com.exemple.AppAula"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkgqA6AgXdzWoZYq51acbhxDNB_uMhGlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
