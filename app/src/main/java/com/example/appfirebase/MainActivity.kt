@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -33,6 +34,9 @@ import androidx.compose.ui.unit.sp
 import com.example.appfirebase.ui.theme.AppFireBaseTheme
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,107 +60,36 @@ fun appCliente(innerPadding: PaddingValues) {
     var CEPTXT by remember { mutableStateOf("") }
     var CidTXT by remember { mutableStateOf("") }
     var EstadoTXT by remember { mutableStateOf("") }
+    var clienteCadastrado by remember { mutableStateOf<Map<String, String>?>(null) }
+    val scrollState = rememberScrollState()
+
     Column(
-        Modifier
-            .fillMaxWidth()
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Row {
-            Text(
-                text = "App Aula",
-                style = TextStyle(
-                    fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
+        Text(
+            text = "App Aula",
+            style = TextStyle(
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
             )
-        }
-
-        OutlinedTextField(
-            value = nome,
-            onValueChange = {
-                nome = it
-            },
-            label = { Text("Nome:") }
         )
 
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            Arrangement.Center
-        ) {
-            OutlinedTextField(
-                value = EndeTXT,
-                onValueChange = {
-                    EndeTXT = it
-                },
-                label = { Text("Endereço") }
-            )
-        }
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            Arrangement.Center
-        ) {
-            OutlinedTextField(
-                value = BaiTXT,
-                onValueChange = {
-                    BaiTXT = it
-                },
-                label = { Text("Bairro:") }
-            )
-        }
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            Arrangement.Center
-        ) {
-            OutlinedTextField(
-                value = CEPTXT,
-                onValueChange = {
-                    CEPTXT = it
-                },
-                label = { Text("CEP:") }
-            )
-        }
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            Arrangement.Center
-        ) {
-            OutlinedTextField(
-                value = CidTXT,
-                onValueChange = {
-                    CidTXT = it
-                },
-                label = { Text("Cidade:") }
-            )
-        }
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            Arrangement.Center
-        ) {
-            OutlinedTextField(
-                value = EstadoTXT,
-                onValueChange = {
-                    EstadoTXT = it
-                },
-                label = { Text("Estado:") }
-            )
-        }
+        OutlinedTextField(value = nome, onValueChange = { nome = it }, label = { Text("Nome:") })
+        OutlinedTextField(value = EndeTXT, onValueChange = { EndeTXT = it }, label = { Text("Endereço") })
+        OutlinedTextField(value = BaiTXT, onValueChange = { BaiTXT = it }, label = { Text("Bairro:") })
+        OutlinedTextField(value = CEPTXT, onValueChange = { CEPTXT = it }, label = { Text("CEP:") })
+        OutlinedTextField(value = CidTXT, onValueChange = { CidTXT = it }, label = { Text("Cidade:") })
+        OutlinedTextField(value = EstadoTXT, onValueChange = { EstadoTXT = it }, label = { Text("Estado:") })
 
         Button(onClick = {
             val db = Firebase.firestore
-
-            val cliente = hashMapOf(
+            val cliente = mapOf(
                 "Nome" to nome,
                 "Endereco" to EndeTXT,
                 "Bairro" to BaiTXT,
@@ -166,18 +99,45 @@ fun appCliente(innerPadding: PaddingValues) {
             )
             db.collection("clientes")
                 .add(cliente)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                .addOnSuccessListener {
+                    Log.d(TAG, "DocumentSnapshot added")
+                    clienteCadastrado = cliente
                 }
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error adding document", e)
                 }
-
+            clienteCadastrado = cliente
+            nome = ""
+            EndeTXT = ""
+            BaiTXT = ""
+            CEPTXT = ""
+            CidTXT = ""
+            EstadoTXT = ""
         }) {
             Text("Cadastrar")
         }
+
+        clienteCadastrado?.let { cliente ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text("Dados Cadastrados:", fontWeight = FontWeight.Bold)
+                    Text("Nome: ${cliente["Nome"]}")
+                    Text("Endereço: ${cliente["Endereco"]}")
+                    Text("Bairro: ${cliente["Bairro"]}")
+                    Text("CEP: ${cliente["CEP"]}")
+                    Text("Cidade: ${cliente["Cidade"]}")
+                    Text("Estado: ${cliente["Estado"]}")
+                }
+            }
+        }
     }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable
